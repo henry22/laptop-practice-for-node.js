@@ -1,2 +1,3 @@
-console.log('Hello world');
-console.log('Second log');
+const fs = require('fs');
+
+const json = fs.readFileSync(`${__dirname}/data/data.json`);
