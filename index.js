@@ -12,7 +12,18 @@ const server = http.createServer((req, res) => {
     // PRODUCTAS OVERVIEW
     if(pathName === '/products' || pathName === '/') {
         res.writeHead(200, { 'Content-type': 'text/html' });
-        res.end('This is the PRODUCTS page');
+        
+        fs.readFile(`${__dirname}/templates/template-overview.html`, 'utf-8', (err, data) => {
+            let overviewOutput = data;
+
+            fs.readFile(`${__dirname}/templates/template-card.html`, 'utf-8', (err, data) => {
+                const cardOutput = laptopData.map(el => replaceTemplate(data, el)).join('');
+
+                overviewOutput = overviewOutput.replace('{%CARDS%}', cardOutput);
+
+                res.end(overviewOutput);
+            });
+        });
     // LAPTOP DETAIL
     } else if(pathName === '/laptop' && id < laptopData.length) {
         res.writeHead(200, { 'Content-type': 'text/html' });
